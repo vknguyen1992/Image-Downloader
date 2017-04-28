@@ -6,6 +6,7 @@ target 'ImageDownloader' do
   # use_frameworks!
 
   # Pods for ImageDownloader
+  pod 'Masonry'
 
   target 'ImageDownloaderTests' do
     inherit! :search_paths

@@ -18,6 +18,13 @@
 		CF00F23B1EB37C6900E1C3B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF00F2391EB37C6900E1C3B1 /* LaunchScreen.storyboard */; };
 		CF00F2461EB37C6A00E1C3B1 /* ImageDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00F2451EB37C6A00E1C3B1 /* ImageDownloaderTests.m */; };
 		CF00F2511EB37C6A00E1C3B1 /* ImageDownloaderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00F2501EB37C6A00E1C3B1 /* ImageDownloaderUITests.m */; };
+		CF219E571EB3977900AB1471 /* ImageFolderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E561EB3977900AB1471 /* ImageFolderModel.m */; };
+		CF219E5A1EB39FF100AB1471 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E591EB39FF100AB1471 /* ImageModel.m */; };
+		CF219E5D1EB3A4D700AB1471 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E5C1EB3A4D700AB1471 /* ImageDownloader.m */; };
+		CF219E631EB49E5B00AB1471 /* ImageOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E621EB49E5B00AB1471 /* ImageOperationQueue.m */; };
+		CF219E691EB4ABF200AB1471 /* ImageFolderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E681EB4ABF200AB1471 /* ImageFolderOperation.m */; };
+		CF219E701EB4F48900AB1471 /* NSURLSession+Synchronous.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E6F1EB4F48900AB1471 /* NSURLSession+Synchronous.m */; };
+		CFABFF4F1EB3848C00551D78 /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFABFF4E1EB3848C00551D78 /* ImageManager.m */; };
 		F1123E6EDA918CD2B3D2B5FA /* libPods-ImageDownloader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A5257D873AAED567C7EF017 /* libPods-ImageDownloader.a */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +68,20 @@
 		CF00F24C1EB37C6A00E1C3B1 /* ImageDownloaderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageDownloaderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF00F2501EB37C6A00E1C3B1 /* ImageDownloaderUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageDownloaderUITests.m; sourceTree = "<group>"; };
 		CF00F2521EB37C6A00E1C3B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF219E551EB3977900AB1471 /* ImageFolderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderModel.h; sourceTree = "<group>"; };
+		CF219E561EB3977900AB1471 /* ImageFolderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderModel.m; sourceTree = "<group>"; };
+		CF219E581EB39FF100AB1471 /* ImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModel.h; sourceTree = "<group>"; };
+		CF219E591EB39FF100AB1471 /* ImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageModel.m; sourceTree = "<group>"; };
+		CF219E5B1EB3A4D700AB1471 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
+		CF219E5C1EB3A4D700AB1471 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		CF219E611EB49E5B00AB1471 /* ImageOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageOperationQueue.h; sourceTree = "<group>"; };
+		CF219E621EB49E5B00AB1471 /* ImageOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageOperationQueue.m; sourceTree = "<group>"; };
+		CF219E671EB4ABF200AB1471 /* ImageFolderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderOperation.h; sourceTree = "<group>"; };
+		CF219E681EB4ABF200AB1471 /* ImageFolderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderOperation.m; sourceTree = "<group>"; };
+		CF219E6E1EB4F48900AB1471 /* NSURLSession+Synchronous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+Synchronous.h"; sourceTree = "<group>"; };
+		CF219E6F1EB4F48900AB1471 /* NSURLSession+Synchronous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+Synchronous.m"; sourceTree = "<group>"; };
+		CFABFF4D1EB3848C00551D78 /* ImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManager.h; sourceTree = "<group>"; };
+		CFABFF4E1EB3848C00551D78 /* ImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManager.m; sourceTree = "<group>"; };
 		D0CF422289C2599DDC953EB9 /* Pods-ImageDownloaderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageDownloaderUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImageDownloaderUITests/Pods-ImageDownloaderUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D3F9EBC1404CE181A1360375 /* Pods-ImageDownloader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageDownloader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImageDownloader/Pods-ImageDownloader.debug.xcconfig"; sourceTree = "<group>"; };
 		ED93EA8FA6D0C6E7B17C19D1 /* Pods-ImageDownloaderUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageDownloaderUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImageDownloaderUITests/Pods-ImageDownloaderUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +164,9 @@
 		CF00F2271EB37C6900E1C3B1 /* ImageDownloader */ = {
 			isa = PBXGroup;
 			children = (
+				CF219E6A1EB4F29C00AB1471 /* Utilities */,
+				CFABFF501EB391E300551D78 /* Models */,
+				CFABFF4C1EB3844D00551D78 /* Data */,
 				CF00F22B1EB37C6900E1C3B1 /* AppDelegate.h */,
 				CF00F22C1EB37C6900E1C3B1 /* AppDelegate.m */,
 				CF00F22E1EB37C6900E1C3B1 /* ViewController.h */,
@@ -181,6 +205,41 @@
 				CF00F2521EB37C6A00E1C3B1 /* Info.plist */,
 			);
 			path = ImageDownloaderUITests;
+			sourceTree = "<group>";
+		};
+		CF219E6A1EB4F29C00AB1471 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CF219E6E1EB4F48900AB1471 /* NSURLSession+Synchronous.h */,
+				CF219E6F1EB4F48900AB1471 /* NSURLSession+Synchronous.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		CFABFF4C1EB3844D00551D78 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				CFABFF4D1EB3848C00551D78 /* ImageManager.h */,
+				CFABFF4E1EB3848C00551D78 /* ImageManager.m */,
+				CF219E5B1EB3A4D700AB1471 /* ImageDownloader.h */,
+				CF219E5C1EB3A4D700AB1471 /* ImageDownloader.m */,
+				CF219E611EB49E5B00AB1471 /* ImageOperationQueue.h */,
+				CF219E621EB49E5B00AB1471 /* ImageOperationQueue.m */,
+				CF219E671EB4ABF200AB1471 /* ImageFolderOperation.h */,
+				CF219E681EB4ABF200AB1471 /* ImageFolderOperation.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		CFABFF501EB391E300551D78 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CF219E551EB3977900AB1471 /* ImageFolderModel.h */,
+				CF219E561EB3977900AB1471 /* ImageFolderModel.m */,
+				CF219E581EB39FF100AB1471 /* ImageModel.h */,
+				CF219E591EB39FF100AB1471 /* ImageModel.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -451,9 +510,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF00F2301EB37C6900E1C3B1 /* ViewController.m in Sources */,
+				CF219E701EB4F48900AB1471 /* NSURLSession+Synchronous.m in Sources */,
+				CF219E631EB49E5B00AB1471 /* ImageOperationQueue.m in Sources */,
 				CF00F22D1EB37C6900E1C3B1 /* AppDelegate.m in Sources */,
+				CF219E5A1EB39FF100AB1471 /* ImageModel.m in Sources */,
 				CF00F2361EB37C6900E1C3B1 /* ImageDownloader.xcdatamodeld in Sources */,
 				CF00F22A1EB37C6900E1C3B1 /* main.m in Sources */,
+				CFABFF4F1EB3848C00551D78 /* ImageManager.m in Sources */,
+				CF219E571EB3977900AB1471 /* ImageFolderModel.m in Sources */,
+				CF219E5D1EB3A4D700AB1471 /* ImageDownloader.m in Sources */,
+				CF219E691EB4ABF200AB1471 /* ImageFolderOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,6 +761,7 @@
 				CF00F2571EB37C6A00E1C3B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CF00F2581EB37C6A00E1C3B1 /* Build configuration list for PBXNativeTarget "ImageDownloaderTests" */ = {
 			isa = XCConfigurationList;
@@ -703,6 +770,7 @@
 				CF00F25A1EB37C6A00E1C3B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CF00F25B1EB37C6A00E1C3B1 /* Build configuration list for PBXNativeTarget "ImageDownloaderUITests" */ = {
 			isa = XCConfigurationList;
@@ -711,6 +779,7 @@
 				CF00F25D1EB37C6A00E1C3B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

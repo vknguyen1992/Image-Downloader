@@ -11,22 +11,20 @@
 
 @implementation ImageFolderOperation
 + (ImageFolderOperation *)createImageOperationFromImageFolderModel: (ImageFolderModel *)imageFolderModel
+                                            withImageProgressBlock:(void (^)(ImageModel *imageModel, CGFloat progress))imageProgessBlock
+                                           andOverallProgressBlock:(void (^)(CGFloat progress))overallProgessBlock
 {
     ImageFolderOperation *imageFolderOperation = [[ImageFolderOperation alloc] init];
     __weak ImageFolderOperation *weakImageOperation = imageFolderOperation;
     [imageFolderOperation addExecutionBlock:^{
-        [weakImageOperation downloadImagesFromImageFolderModel:imageFolderModel withImageProgressBlock:^(NSString *url, CGFloat progress) {
-            //
-        } andOverallProgressBlock:^(CGFloat progress) {
-            //
-        }];
+        [weakImageOperation downloadImagesFromImageFolderModel:imageFolderModel withImageProgressBlock:imageProgessBlock andOverallProgressBlock:overallProgessBlock];
     }];
     
     return imageFolderOperation;
 }
 
 // should push notification or use delegate here to update UI
-- (void)downloadImagesFromImageFolderModel: (ImageFolderModel *)imageFolderModel withImageProgressBlock:(void (^)(NSString *url, CGFloat progress))imageProgessBlock andOverallProgressBlock:(void (^)(CGFloat progress))overallProgessBlock
+- (void)downloadImagesFromImageFolderModel: (ImageFolderModel *)imageFolderModel withImageProgressBlock:(void (^)(ImageModel *imageModel, CGFloat progress))imageProgessBlock andOverallProgressBlock:(void (^)(CGFloat progress))overallProgessBlock
 {
     NSArray *imageUrls = [self readImageUrlListFromFilePath:[imageFolderModel path]];
     [imageFolderModel setImageUrls:imageUrls];
@@ -41,7 +39,7 @@
             
         [self downloadImageFromUrl:url withProgressBlock:^(CGFloat progress) {
             [imageModel setProgress:progress];
-            imageProgessBlock(url, progress);
+            imageProgessBlock(imageModel, progress);
         } amdCompletion:^{
             [imageModel setDidCompleteDownload:YES];
             [imageFolderModel recomputeProgress];

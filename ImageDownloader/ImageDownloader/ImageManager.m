@@ -14,9 +14,18 @@
 #import "ImageOperationQueue.h"
 #import "ImageFolderOperation.h"
 
+static NSString * const kNotificationFolderProgress = @"kNotificationFolderProgress";
+static NSString * const kNotificationFolderProgressModelKey = @"kNotificationFolderProgressModelKey";
+static NSString * const kNotificationFolderProgressProgressKey = @"kNotificationFolderProgressProgressKey";
+
+static NSString * const kNotificationFileProgress = @"kNotificationFileProgress";
+static NSString * const kNotificationFileProgressModelKey = @"kNotificationFileProgressModelKey";
+static NSString * const kNotificationFileProgressProgressKey = @"kNotificationFileProgressProgressKey";
+
+static NSString * const kDownloadFileFolder = @"Downloaded";
 static NSString * const kImagesJsonZipFileName = @"imagesJsonFiles.zip";
 static NSString * const kImagesJsonFolderName = @"JSON files updated";
-static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.com/nabstudio/Developer/iOS/Interview/Image%20Downloader/JSON%20 les%20updated.zip";
+static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.com/nabstudio/Developer/iOS/Interview/Image%20Downloader/JSON%20files%20updated.zip";
 
 @interface ImageManager()
 @property (nonatomic, strong) dispatch_queue_t backgroundQueue;
@@ -38,10 +47,17 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     return sharedManager;
 }
 
+- (NSString *)downloadFileFolderPath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths objectAtIndex:0];
+    NSString *dataPath = [path stringByAppendingPathComponent:kDownloadFileFolder];
+    return dataPath;
+}
+
 - (NSString *)zipFilePath
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
+    NSString *path = [self downloadFileFolderPath];
     
     NSString *dataPath = [path stringByAppendingPathComponent:kImagesJsonZipFileName];
     dataPath = [dataPath stringByStandardizingPath];
@@ -50,27 +66,30 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
 
 - (NSString *)jsonFolderPath
 {
-    NSString *zipFilePath = [self zipFilePath];
-    NSString *jsonFilePath = [zipFilePath stringByAppendingPathComponent:kImagesJsonFolderName];
+    NSString *path = [self downloadFileFolderPath];
+    NSString *jsonFilePath = [path stringByAppendingPathComponent:kImagesJsonFolderName];
     return jsonFilePath;
 }
 
 - (void)downloadImageListJsonZipFile
 {
+    [[NSFileManager defaultManager] createDirectoryAtPath:[self downloadFileFolderPath] withIntermediateDirectories:YES attributes:nil error:nil];
+    
     NSLog(@"Beginning download");
     NSString *stringURL = kImagesJsonDownloadUrl;
-    NSURL  *url = [NSURL URLWithString:stringURL];
+    NSURL *url = [NSURL URLWithString:stringURL];
+    
     NSData *urlData = [NSData dataWithContentsOfURL:url];
     
     //Save the data
     NSLog(@"Saving");
     NSString *dataPath = [self zipFilePath];
-    [urlData writeToFile:dataPath atomically:YES];
+    [urlData writeToFile:dataPath options:NSDataWritingAtomic error:nil];
 }
     
 - (void)decompressImageJsonZipFile
 {
-    [SSZipArchive unzipFileAtPath:[self zipFilePath] toDestination:[self zipFilePath]];
+    [SSZipArchive unzipFileAtPath:[self zipFilePath] toDestination:[self downloadFileFolderPath]];
 }
 
 - (void)downloadImageJsonFolder
@@ -114,12 +133,27 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     
     NSArray *folderModels = [self imageFolderModels];
     for (ImageFolderModel *folderModel in folderModels) {
-        ImageFolderOperation *operation = [ImageFolderOperation createImageOperationFromImageFolderModel:folderModel];
+        ImageFolderOperation *operation = [ImageFolderOperation createImageOperationFromImageFolderModel:folderModel withImageProgressBlock:^(ImageModel *imageModel, CGFloat progress) {
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict setObject:imageModel forKey:kNotificationFileProgressModelKey];
+            [dict setObject:@(progress) forKey:kNotificationFileProgressProgressKey];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFileProgress object:nil userInfo:dict];
+        } andOverallProgressBlock:^(CGFloat progress) {
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict setObject:folderModel forKey:kNotificationFolderProgressModelKey];
+            [dict setObject:@(progress) forKey:kNotificationFolderProgressProgressKey];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFolderProgress object:nil userInfo:dict];
+        }];
         [completionOperation addDependency:operation];
     }
     
     [[self imageFolderDownloadQueue] addOperations:completionOperation.dependencies waitUntilFinished:NO];
     [[self imageFolderDownloadQueue] addOperation:completionOperation];
+}
+
+- (void)removeDownloadFolder
+{
+    [[NSFileManager defaultManager] removeItemAtPath:[self downloadFileFolderPath] error:nil];
 }
 
 - (void)pauseDownloading
@@ -131,9 +165,5 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
 {
     [[self imageFolderDownloadQueue] cancelAllOperations];
 }
-
-#pragma mark - check current progress when app launched
-
-#pragma mark - image caching
 
 @end

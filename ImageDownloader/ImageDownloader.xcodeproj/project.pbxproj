@@ -164,6 +164,8 @@
 		CF00F2271EB37C6900E1C3B1 /* ImageDownloader */ = {
 			isa = PBXGroup;
 			children = (
+				CF219E721EB5953E00AB1471 /* ViewModels */,
+				CF219E711EB5953000AB1471 /* ViewControllers */,
 				CF219E6A1EB4F29C00AB1471 /* Utilities */,
 				CFABFF501EB391E300551D78 /* Models */,
 				CFABFF4C1EB3844D00551D78 /* Data */,
@@ -214,6 +216,20 @@
 				CF219E6F1EB4F48900AB1471 /* NSURLSession+Synchronous.m */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		CF219E711EB5953000AB1471 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CF219E721EB5953E00AB1471 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModels;
 			sourceTree = "<group>";
 		};
 		CFABFF4C1EB3844D00551D78 /* Data */ = {
@@ -669,6 +685,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = WC64T22ANZ;
 				INFOPLIST_FILE = ImageDownloader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.misfit.ImageDownloader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -682,6 +699,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = WC64T22ANZ;
 				INFOPLIST_FILE = ImageDownloader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.misfit.ImageDownloader;
 				PRODUCT_NAME = "$(TARGET_NAME)";

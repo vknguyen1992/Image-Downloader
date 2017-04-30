@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "ImageManager.h"
+#import "ImageFolderModel.h"
 
 @interface ImageFolderListViewModel : NSObject
 @property (nonatomic, assign) NSInteger concurrencyCount;
 
 - (NSArray *)imageFolders;
 - (void)startDownloadImagesWithConcurrencyCount: (NSInteger)concurrencyCount;
+- (NSNumber *)rowForImageFolderModel: (ImageFolderModel *)imageFolderModel;
+- (void)updateConcurrencyCount: (NSInteger)concurrencyCount;
 @end

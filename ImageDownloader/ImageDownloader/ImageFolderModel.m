@@ -23,9 +23,9 @@
 
 - (void)recomputeProgress
 {
-    NSInteger imageUrlsCount = [[self imageUrls] count];
+    CGFloat imageUrlsCount = [[self imageUrls] count];
     
-    NSInteger completeImageModelsCount = 0;
+    CGFloat completeImageModelsCount = 0;
     NSArray *imageModels = [[self imageModels] copy];
     for (ImageModel *imageModel in imageModels) {
         if ([imageModel didCompleteDownload] == YES) {

@@ -48,8 +48,11 @@
 {
     [self setMainTableView:[[UITableView alloc] initWithFrame:CGRectZero]];
     [[self mainTableView] registerClass:[ImageFolderListTableViewCell class] forCellReuseIdentifier:kImageFolderListTableViewCellIdentifier];
+    [[self mainTableView] setDelegate:self];
+    [[self mainTableView] setDataSource:self];
     
     [self setConcurrencySlider:[[UISlider alloc] initWithFrame:CGRectZero]];
+    [[self concurrencySlider] addTarget:self action:@selector(concurrentcySliderChange:) forControlEvents:UIControlEventValueChanged];
     
     [[self view] addSubview:[self mainTableView]];
     [[self view] addSubview:[self concurrencySlider]];
@@ -67,7 +70,7 @@
     [[self mainTableView] mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo([self view]);
         make.trailing.equalTo([self view]);
-        make.bottom.equalTo([self view]);
+        make.top.equalTo([self view]);
         make.bottom.equalTo([[self concurrencySlider] mas_top]);
     }];
 }
@@ -95,7 +98,17 @@
 #pragma mark - notifications
 - (void)folderProgressNotification: (NSNotification *)notification
 {
-//    ImageFolderListTableViewCell *cell = [self mainTableView] cellForRowAtIndexPath:<#(nonnull NSIndexPath *)#>
+    NSDictionary *userInfo = [notification userInfo];
+    if (userInfo != nil) {
+        ImageFolderModel *folderModel = [userInfo objectForKey:kNotificationFolderProgressModelKey];
+        NSNumber *progress = [userInfo objectForKey:kNotificationFolderProgressProgressKey];
+        
+        NSNumber *row = [[self viewModel] rowForImageFolderModel:folderModel];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row.integerValue inSection:0];
+        ImageFolderListTableViewCell *cell = [[self mainTableView] cellForRowAtIndexPath:indexPath];
+        
+        [cell updateProgress:progress.floatValue];
+    }
 }
 
 - (void)fileProgressNotification: (NSNotification *)notification
@@ -106,8 +119,17 @@
 - (void)doneDownloadAndUnzipImageFolderNotification: (NSNotification *)notification
 {
     // update concurrentySlide max value after download and unzip json folder
-    [[self concurrencySlider] setMinimumValueImage:0];
+    [[self concurrencySlider] setMinimumValue:1];
     [[self concurrencySlider] setMaximumValue:[[[self viewModel] imageFolders] count]];
+    [[self mainTableView] reloadData];
+}
+
+#pragma mark - events
+- (void)concurrentcySliderChange: (UISlider *)slider
+{
+    NSInteger newStep = (NSInteger)[slider value];
+    [slider setValue:newStep];
+    [[self viewModel] updateConcurrencyCount:newStep];
 }
 
 @end

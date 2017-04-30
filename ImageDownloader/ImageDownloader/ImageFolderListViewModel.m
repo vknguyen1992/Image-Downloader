@@ -27,4 +27,23 @@
     });
 }
 
+- (NSNumber *)rowForImageFolderModel: (ImageFolderModel *)imageFolderModel
+{
+    NSArray *imageFolders = [[self imageFolders] copy];
+    for (int i = 0; i < imageFolders.count; i++) {
+        ImageFolderModel *imageFolder = [imageFolders objectAtIndex:i];
+        if (imageFolder != nil) {
+            if ([imageFolderModel.path isEqualToString:imageFolder.path]) {
+                return @(i);
+            }
+        }
+    }
+    return nil;
+}
+
+- (void)updateConcurrencyCount: (NSInteger)concurrencyCount;
+{
+    [[ImageManager sharedManager] updateConcurrencyCount:concurrencyCount];
+}
+
 @end

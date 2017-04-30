@@ -19,9 +19,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [[ImageManager sharedManager] downloadImageJsonFolder];
-    [[ImageManager sharedManager] getJsonFilesList];
-    
     return YES;
 }
 

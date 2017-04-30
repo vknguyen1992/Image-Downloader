@@ -26,7 +26,7 @@
     NSInteger imageUrlsCount = [[self imageUrls] count];
     
     NSInteger completeImageModelsCount = 0;
-    NSArray *imageModels = [self imageModels];
+    NSArray *imageModels = [[self imageModels] copy];
     for (ImageModel *imageModel in imageModels) {
         if ([imageModel didCompleteDownload] == YES) {
             completeImageModelsCount ++;

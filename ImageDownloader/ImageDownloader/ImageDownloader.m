@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ImageDownloader.h"
-#import "NSURLSession+Synchronous.h"
 
 @interface ImageDownloader()
 @property (nonatomic, strong) NSString *url;
@@ -16,12 +15,14 @@
 @property (nonatomic, assign) CGFloat progress;
 @property (nonatomic, strong) NSMutableData *data;
 
+@property (nonnull, strong) dispatch_semaphore_t semaphore;
+
 @property (nonatomic, strong) void (^progressBlock)(CGFloat progress);
-@property (nonatomic, strong) void (^completionBlock)();
+@property (nonatomic, strong) void (^completionBlock)(ImageDownloader *imageDownloader);
 @end
 
 @implementation ImageDownloader
-- (instancetype)initWithUrl: (NSString *)url progressBlock: (void (^)(CGFloat progress))progressBlock completionBlock:(void (^)())completionBlock
+- (instancetype)initWithUrl: (NSString *)url progressBlock: (void (^)(CGFloat progress))progressBlock completionBlock:(void (^)(ImageDownloader *imageDownloader))completionBlock
 {
     self = [super init];
     if (self) {
@@ -40,20 +41,26 @@
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
 
-    [session synchronouslyDownloadWithURL:url completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        self.completionBlock();
-    }];
+    [self setSemaphore:dispatch_semaphore_create(0)];
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url];
+    [task resume];
+    dispatch_semaphore_wait([self semaphore], DISPATCH_TIME_FOREVER);
+    self.completionBlock(self);
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
 {
     [[self data] setLength:0];
     self.totalBytes = response.expectedContentLength;
+    completionHandler(NSURLSessionResponseAllow);
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
     [[self data] appendData:data];
+    if ([[self data] length] == [self totalBytes]) {
+        dispatch_semaphore_signal([self semaphore]);
+    }
     CGFloat progress = [[self data] length] / [self totalBytes];
     self.progressBlock(progress);
 }

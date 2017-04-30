@@ -18,6 +18,13 @@
 		CF00F23B1EB37C6900E1C3B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF00F2391EB37C6900E1C3B1 /* LaunchScreen.storyboard */; };
 		CF00F2461EB37C6A00E1C3B1 /* ImageDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00F2451EB37C6A00E1C3B1 /* ImageDownloaderTests.m */; };
 		CF00F2511EB37C6A00E1C3B1 /* ImageDownloaderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00F2501EB37C6A00E1C3B1 /* ImageDownloaderUITests.m */; };
+		CF0472251EB5C749006D0A2B /* ImageFolderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472241EB5C749006D0A2B /* ImageFolderListViewController.m */; };
+		CF0472281EB5C75C006D0A2B /* ImageFolderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472271EB5C75C006D0A2B /* ImageFolderDetailViewController.m */; };
+		CF04722B1EB5C765006D0A2B /* ImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF04722A1EB5C765006D0A2B /* ImageDetailViewController.m */; };
+		CF04722E1EB5C774006D0A2B /* ImageFolderListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF04722D1EB5C774006D0A2B /* ImageFolderListViewModel.m */; };
+		CF0472311EB5C77F006D0A2B /* ImageFolderDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472301EB5C77F006D0A2B /* ImageFolderDetailViewModel.m */; };
+		CF0472341EB5C78B006D0A2B /* ImageDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472331EB5C78B006D0A2B /* ImageDetailViewModel.m */; };
+		CF0472381EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472371EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m */; };
 		CF219E571EB3977900AB1471 /* ImageFolderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E561EB3977900AB1471 /* ImageFolderModel.m */; };
 		CF219E5A1EB39FF100AB1471 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E591EB39FF100AB1471 /* ImageModel.m */; };
 		CF219E5D1EB3A4D700AB1471 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E5C1EB3A4D700AB1471 /* ImageDownloader.m */; };
@@ -68,6 +75,20 @@
 		CF00F24C1EB37C6A00E1C3B1 /* ImageDownloaderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageDownloaderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF00F2501EB37C6A00E1C3B1 /* ImageDownloaderUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageDownloaderUITests.m; sourceTree = "<group>"; };
 		CF00F2521EB37C6A00E1C3B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF0472231EB5C749006D0A2B /* ImageFolderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderListViewController.h; sourceTree = "<group>"; };
+		CF0472241EB5C749006D0A2B /* ImageFolderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderListViewController.m; sourceTree = "<group>"; };
+		CF0472261EB5C75C006D0A2B /* ImageFolderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderDetailViewController.h; sourceTree = "<group>"; };
+		CF0472271EB5C75C006D0A2B /* ImageFolderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderDetailViewController.m; sourceTree = "<group>"; };
+		CF0472291EB5C765006D0A2B /* ImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewController.h; sourceTree = "<group>"; };
+		CF04722A1EB5C765006D0A2B /* ImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewController.m; sourceTree = "<group>"; };
+		CF04722C1EB5C774006D0A2B /* ImageFolderListViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderListViewModel.h; sourceTree = "<group>"; };
+		CF04722D1EB5C774006D0A2B /* ImageFolderListViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderListViewModel.m; sourceTree = "<group>"; };
+		CF04722F1EB5C77F006D0A2B /* ImageFolderDetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderDetailViewModel.h; sourceTree = "<group>"; };
+		CF0472301EB5C77F006D0A2B /* ImageFolderDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderDetailViewModel.m; sourceTree = "<group>"; };
+		CF0472321EB5C78B006D0A2B /* ImageDetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewModel.h; sourceTree = "<group>"; };
+		CF0472331EB5C78B006D0A2B /* ImageDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewModel.m; sourceTree = "<group>"; };
+		CF0472361EB5D2B3006D0A2B /* ImageFolderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderListTableViewCell.h; sourceTree = "<group>"; };
+		CF0472371EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderListTableViewCell.m; sourceTree = "<group>"; };
 		CF219E551EB3977900AB1471 /* ImageFolderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderModel.h; sourceTree = "<group>"; };
 		CF219E561EB3977900AB1471 /* ImageFolderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderModel.m; sourceTree = "<group>"; };
 		CF219E581EB39FF100AB1471 /* ImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModel.h; sourceTree = "<group>"; };
@@ -209,6 +230,15 @@
 			path = ImageDownloaderUITests;
 			sourceTree = "<group>";
 		};
+		CF0472351EB5D29B006D0A2B /* VIews */ = {
+			isa = PBXGroup;
+			children = (
+				CF0472361EB5D2B3006D0A2B /* ImageFolderListTableViewCell.h */,
+				CF0472371EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m */,
+			);
+			name = VIews;
+			sourceTree = "<group>";
+		};
 		CF219E6A1EB4F29C00AB1471 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +251,13 @@
 		CF219E711EB5953000AB1471 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CF0472351EB5D29B006D0A2B /* VIews */,
+				CF0472231EB5C749006D0A2B /* ImageFolderListViewController.h */,
+				CF0472241EB5C749006D0A2B /* ImageFolderListViewController.m */,
+				CF0472261EB5C75C006D0A2B /* ImageFolderDetailViewController.h */,
+				CF0472271EB5C75C006D0A2B /* ImageFolderDetailViewController.m */,
+				CF0472291EB5C765006D0A2B /* ImageDetailViewController.h */,
+				CF04722A1EB5C765006D0A2B /* ImageDetailViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -228,6 +265,12 @@
 		CF219E721EB5953E00AB1471 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				CF04722C1EB5C774006D0A2B /* ImageFolderListViewModel.h */,
+				CF04722D1EB5C774006D0A2B /* ImageFolderListViewModel.m */,
+				CF04722F1EB5C77F006D0A2B /* ImageFolderDetailViewModel.h */,
+				CF0472301EB5C77F006D0A2B /* ImageFolderDetailViewModel.m */,
+				CF0472321EB5C78B006D0A2B /* ImageDetailViewModel.h */,
+				CF0472331EB5C78B006D0A2B /* ImageDetailViewModel.m */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -526,14 +569,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF00F2301EB37C6900E1C3B1 /* ViewController.m in Sources */,
+				CF0472341EB5C78B006D0A2B /* ImageDetailViewModel.m in Sources */,
 				CF219E701EB4F48900AB1471 /* NSURLSession+Synchronous.m in Sources */,
 				CF219E631EB49E5B00AB1471 /* ImageOperationQueue.m in Sources */,
 				CF00F22D1EB37C6900E1C3B1 /* AppDelegate.m in Sources */,
+				CF0472251EB5C749006D0A2B /* ImageFolderListViewController.m in Sources */,
+				CF0472311EB5C77F006D0A2B /* ImageFolderDetailViewModel.m in Sources */,
+				CF04722B1EB5C765006D0A2B /* ImageDetailViewController.m in Sources */,
 				CF219E5A1EB39FF100AB1471 /* ImageModel.m in Sources */,
 				CF00F2361EB37C6900E1C3B1 /* ImageDownloader.xcdatamodeld in Sources */,
+				CF04722E1EB5C774006D0A2B /* ImageFolderListViewModel.m in Sources */,
+				CF0472281EB5C75C006D0A2B /* ImageFolderDetailViewController.m in Sources */,
 				CF00F22A1EB37C6900E1C3B1 /* main.m in Sources */,
 				CFABFF4F1EB3848C00551D78 /* ImageManager.m in Sources */,
 				CF219E571EB3977900AB1471 /* ImageFolderModel.m in Sources */,
+				CF0472381EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m in Sources */,
 				CF219E5D1EB3A4D700AB1471 /* ImageDownloader.m in Sources */,
 				CF219E691EB4ABF200AB1471 /* ImageFolderOperation.m in Sources */,
 			);

@@ -14,14 +14,6 @@
 #import "ImageOperationQueue.h"
 #import "ImageFolderOperation.h"
 
-static NSString * const kNotificationFolderProgress = @"kNotificationFolderProgress";
-static NSString * const kNotificationFolderProgressModelKey = @"kNotificationFolderProgressModelKey";
-static NSString * const kNotificationFolderProgressProgressKey = @"kNotificationFolderProgressProgressKey";
-
-static NSString * const kNotificationFileProgress = @"kNotificationFileProgress";
-static NSString * const kNotificationFileProgressModelKey = @"kNotificationFileProgressModelKey";
-static NSString * const kNotificationFileProgressProgressKey = @"kNotificationFileProgressProgressKey";
-
 static NSString * const kDownloadFileFolder = @"Downloaded";
 static NSString * const kImagesJsonZipFileName = @"imagesJsonFiles.zip";
 static NSString * const kImagesJsonFolderName = @"JSON files updated";
@@ -117,10 +109,20 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     }];
     
     [self setImageFolderModels:jsonFiles];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDoneDownloadAndUnzipImageFolder object:nil userInfo:nil];
+    });
+    
     return jsonFiles;
 }
 
 #pragma mark - concurrency downloading
+- (void)updateConcurrencyCount: (NSInteger)concurrencyCount
+{
+    [self imageFolderDownloadQueue].maxConcurrentOperationCount = concurrencyCount;
+}
+
 - (void)downloadAllImageFolderWithConcurrencyNumber: (NSInteger)concurrencyCount onCompletion: (void (^)(void))completionBlock
 {
     
@@ -137,12 +139,16 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
             [dict setObject:imageModel forKey:kNotificationFileProgressModelKey];
             [dict setObject:@(progress) forKey:kNotificationFileProgressProgressKey];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFileProgress object:nil userInfo:dict];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFileProgress object:nil userInfo:dict];
+            });
         } andOverallProgressBlock:^(CGFloat progress) {
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
             [dict setObject:folderModel forKey:kNotificationFolderProgressModelKey];
             [dict setObject:@(progress) forKey:kNotificationFolderProgressProgressKey];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFolderProgress object:nil userInfo:dict];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFolderProgress object:nil userInfo:dict];
+            });
         }];
         [completionOperation addDependency:operation];
     }

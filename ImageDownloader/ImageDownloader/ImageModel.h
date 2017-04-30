@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, assign) BOOL didCompleteDownload;
+@property (nonatomic, assign) BOOL didCompleteDownload; // TODO recheck didCompletedCondition
 
 - (instancetype)initWithName: (NSString *)name andUrl: (NSString *)url;
 @end

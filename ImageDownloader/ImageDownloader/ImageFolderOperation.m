@@ -23,7 +23,6 @@
     return imageFolderOperation;
 }
 
-// should push notification or use delegate here to update UI
 - (void)downloadImagesFromImageFolderModel: (ImageFolderModel *)imageFolderModel withImageProgressBlock:(void (^)(ImageModel *imageModel, CGFloat progress))imageProgessBlock andOverallProgressBlock:(void (^)(CGFloat progress))overallProgessBlock
 {
     NSArray *imageUrls = [self readImageUrlListFromFilePath:[imageFolderModel path]];
@@ -36,11 +35,19 @@
         
         ImageModel *imageModel = [imageFolderModel addImageToImageModelsFromUrl:url];
         if ([imageModel didCompleteDownload]) { continue; }
-            
+
         [self downloadImageFromUrl:url withProgressBlock:^(CGFloat progress) {
             [imageModel setProgress:progress];
             imageProgessBlock(imageModel, progress);
-        } amdCompletion:^{
+        } amdCompletion:^(ImageDownloader *imageDownloader) {
+            NSError *error;
+            
+            NSString *folderName = [[[imageFolderModel path] componentsSeparatedByString:@"."] firstObject];
+            [[NSFileManager defaultManager] createDirectoryAtPath:folderName withIntermediateDirectories:YES attributes:nil error:&error];
+            
+            NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
+            [[imageDownloader data] writeToFile:imagePath options:NSDataWritingAtomic error:&error];
+            
             [imageModel setDidCompleteDownload:YES];
             [imageFolderModel recomputeProgress];
             overallProgessBlock([imageFolderModel progress]);
@@ -56,7 +63,7 @@
     return filesList;
 }
 
-- (void)downloadImageFromUrl: (NSString *)url withProgressBlock:(void (^)(CGFloat progress))progessBlock amdCompletion:(void (^)())completion
+- (void)downloadImageFromUrl: (NSString *)url withProgressBlock:(void (^)(CGFloat progress))progessBlock amdCompletion:(void (^)(ImageDownloader *imageDownloader))completion
 {
     ImageDownloader *imageDownloader = [[ImageDownloader alloc] initWithUrl:url progressBlock:progessBlock completionBlock:completion];
     [imageDownloader startDownload];

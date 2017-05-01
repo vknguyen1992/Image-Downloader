@@ -33,4 +33,6 @@ RLM_ARRAY_TYPE(ImageModel)
 - (void)updateImageCount: (int)imageCount;
 
 - (ImageFolderModel *)clone;
+
+- (NSArray *)getImageModelsArray;
 @end

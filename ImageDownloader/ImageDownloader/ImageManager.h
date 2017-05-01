@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ImageFolderModel.h"
+#import "ImageModel.h"
 
 static NSString * const kNotificationFolderProgress = @"kNotificationFolderProgress";
 static NSString * const kNotificationFolderProgressModelKey = @"kNotificationFolderProgressModelKey";
@@ -25,7 +27,8 @@ static NSString * const kNotificationDoneDownloadAndUnzipImageFolder = @"kNotifi
 
 @property (readonly, nonatomic, strong) dispatch_queue_t backgroundQueue;
 
-//- (void)dropDb;
+- (UIImage *)imageFromImageModel: (ImageModel *)imageModel andImageFolderModel: (ImageFolderModel *)imageFolderModel;
+
 - (void)downloadImageJsonFolder;
 - (NSArray *)getJsonFilesList;
 - (void)downloadAllImageFolderWithConcurrencyNumber: (NSInteger)concurrencyCount onCompletion: (void (^)(void))completionBlock;

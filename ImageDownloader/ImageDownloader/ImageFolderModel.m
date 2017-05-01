@@ -139,4 +139,16 @@
     [realm commitWriteTransaction];
 }
 
+- (NSArray *)getImageModelsArray
+{
+    NSMutableArray *imageModelsArray = [[NSMutableArray alloc] init];
+    
+    RLMArray<ImageModel *><ImageModel> *imageModels = [self imageModels];
+    for (ImageModel *imageModel in imageModels)
+    {
+        [imageModelsArray addObject:imageModel];
+    }
+    return imageModelsArray;
+}
+
 @end

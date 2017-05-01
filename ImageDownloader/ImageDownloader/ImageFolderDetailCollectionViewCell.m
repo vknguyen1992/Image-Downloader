@@ -30,6 +30,8 @@
     [self setBackgroundColor:[UIColor grayColor]];
     
     [self setImageView:[[UIImageView alloc] initWithFrame:CGRectZero]];
+    [[self imageView] setContentMode:UIViewContentModeScaleAspectFit];
+    
     [self setStatusLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
     
     [self addSubview:[self imageView]];

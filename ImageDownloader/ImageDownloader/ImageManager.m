@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "ImageManager.h"
 #import "SSZipArchive.h"
-#import "ImageFolderModel.h"
-#import "ImageModel.h"
 #import "ImageOperationQueue.h"
 #import "ImageFolderOperation.h"
 
@@ -144,6 +142,18 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     
     return jsonFiles;
 }
+
+- (UIImage *)imageFromImageModel: (ImageModel *)imageModel andImageFolderModel: (ImageFolderModel *)imageFolderModel
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths objectAtIndex:0];
+    NSString *folderName = [[[imageFolderModel path] componentsSeparatedByString:@"."] firstObject];
+    folderName = [documentPath stringByAppendingPathComponent:folderName];
+    NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
+    
+    return [UIImage imageWithContentsOfFile:imagePath];
+}
+
 
 #pragma mark - check downloaded images
 - (void)loadDataFromDb

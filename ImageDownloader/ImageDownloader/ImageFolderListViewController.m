@@ -41,6 +41,8 @@
 
 - (void)setupNavigationBar
 {
+    [[self navigationItem] setTitle:@"Files"];
+    
     UIBarButtonItem *resetButton = [[UIBarButtonItem alloc]
                                     initWithTitle:@"Reset"
                                     style:UIBarButtonItemStylePlain

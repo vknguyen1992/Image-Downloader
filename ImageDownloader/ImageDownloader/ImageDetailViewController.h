@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Realm/Realm.h>
+#import "ImageModel.h"
+#import "ImageFolderModel.h"
 
 @interface ImageDetailViewController : UIViewController
-- (void)updateImage: (UIImage *)image;
+@property (nonatomic, strong) ImageFolderModel *imageFolderModel;
+@property (nonatomic, strong) NSArray *imageModels;
+@property (nonatomic, assign) NSInteger imgIndex;
 @end

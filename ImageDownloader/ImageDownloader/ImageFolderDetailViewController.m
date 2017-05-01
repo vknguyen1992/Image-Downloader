@@ -29,6 +29,12 @@
     [self setupObservers];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[self navigationItem] setTitle:[[self imageFolderModel] name]];
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -70,17 +76,6 @@
 }
 
 #pragma mark collection view delegates
-- (UIImage *)imageFromImageModel: (ImageModel *)imageModel
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentPath = [paths objectAtIndex:0];
-    NSString *folderName = [[[[self imageFolderModel] path] componentsSeparatedByString:@"."] firstObject];
-    folderName = [documentPath stringByAppendingPathComponent:folderName];
-    NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
-    
-    return [UIImage imageWithContentsOfFile:imagePath];
-}
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ImageFolderDetailCollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kImageFolderDetailCollectionViewCellIdentifier forIndexPath:indexPath];
@@ -88,7 +83,7 @@
     if (indexPath.row < [[[self imageFolderModel] imageModels] count]) {
         ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
         if (imageModel != nil) {
-            UIImage *image = [self imageFromImageModel:imageModel];
+            UIImage *image = [[ImageManager sharedManager] imageFromImageModel:imageModel andImageFolderModel:[self imageFolderModel]];
             [cell updateImage:image];
         } else {
             [cell updateImage:nil];
@@ -111,12 +106,9 @@
     ImageDetailViewController *vc = [[ImageDetailViewController alloc] init];
     
     if (indexPath.row < [[[self imageFolderModel] imageModels] count]) {
-    
-        ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
-        if (imageModel != nil) {
-            UIImage *image = [self imageFromImageModel:imageModel];
-            [vc updateImage:image];
-        }
+        [vc setImageFolderModel:[self imageFolderModel]];
+        [vc setImageModels:[[self imageFolderModel] getImageModelsArray]];
+        [vc setImgIndex:indexPath.row];
     }
     
     [[self navigationController] pushViewController:vc animated:YES];
@@ -152,7 +144,7 @@
         [cell updateStatus:statusString];
         
         if (progress.floatValue >= 1) {
-            UIImage *image = [self imageFromImageModel:imageModel];
+            UIImage *image = [[ImageManager sharedManager] imageFromImageModel:imageModel andImageFolderModel:[self imageFolderModel]];
             [cell updateImage:image];
             
             NSString *statusString = [[self viewModel] stateStringFromFolderModel:ImageDownloadStateFinished progress:0];

@@ -110,7 +110,11 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [[self imageFolderModel] imagesCount];
+    NSInteger imagesCount = [[self imageFolderModel] imagesCount];
+    if (imagesCount == 0) {
+        imagesCount = [[[self imageFolderModel] imageModels] count];
+    }
+    return imagesCount;
 }
 
 #pragma mark - notifications

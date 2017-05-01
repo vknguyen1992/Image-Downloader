@@ -127,7 +127,7 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
 
-    clonedObjc.imagesCount = imageCount;
+    [clonedObjc setImagesCount:imageCount];
     
     [realm beginWriteTransaction];
     [realm addOrUpdateObject:clonedObjc];

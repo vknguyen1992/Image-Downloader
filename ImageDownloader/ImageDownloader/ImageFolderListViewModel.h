@@ -21,4 +21,5 @@
 - (void)reset;
 - (void)pause;
 - (BOOL)didDownloadJson;
+- (void)loadFromDataIfNeeded;
 @end

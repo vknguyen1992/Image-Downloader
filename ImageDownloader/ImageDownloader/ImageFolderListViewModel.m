@@ -26,6 +26,14 @@
     return [[ImageManager sharedManager] imageFolderModels];
 }
 
+- (void)loadFromDataIfNeeded
+{
+    BOOL didDownloadJson = [[ImageManager sharedManager] getDidDownloadJson];
+    if (didDownloadJson) {
+        [[ImageManager sharedManager] loadDataFromDb];
+    }
+}
+
 - (void)startDownloadImagesWithConcurrencyCount: (NSInteger)concurrencyCount;
 {
     dispatch_async([[ImageManager sharedManager] backgroundQueue], ^{

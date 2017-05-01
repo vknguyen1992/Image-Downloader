@@ -26,6 +26,8 @@
     
     [self setViewModel:[[ImageFolderListViewModel alloc] init]];
     
+    [[self viewModel] loadFromDataIfNeeded];
+    
     [self setupViews];
     [self setupLayouts];
     [self setupObservers];

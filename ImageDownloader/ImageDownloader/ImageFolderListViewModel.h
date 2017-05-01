@@ -22,4 +22,5 @@
 - (void)pause;
 - (BOOL)didDownloadJson;
 - (void)loadFromDataIfNeeded;
+- (NSString *)stateStringFromFolderModel: (ImageFolderModel *)folderModel;
 @end

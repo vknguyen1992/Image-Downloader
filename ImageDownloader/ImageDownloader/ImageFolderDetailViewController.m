@@ -22,6 +22,7 @@
     [super viewDidLoad];
 
     [self setViewModel:[[ImageFolderDetailViewModel alloc] init]];
+    [[self viewModel] setImageFolderModel:[self imageFolderModel]];
 
     [self setupViews];
     [self setupLayouts];
@@ -120,7 +121,22 @@
 #pragma mark - notifications
 - (void)fileProgressNotification: (NSNotification *)notification
 {
-    
+    NSDictionary *userInfo = [notification userInfo];
+    if (userInfo != nil) {
+        ImageModel *imageModel = [userInfo objectForKey:kNotificationFileProgressModelKey];
+        NSNumber *progress = [userInfo objectForKey:kNotificationFileProgressProgressKey];
+        
+        NSNumber *row = [[self viewModel] rowForImageModel:imageModel];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row.integerValue inSection:0];
+        ImageFolderDetailCollectionViewCell *cell = (ImageFolderDetailCollectionViewCell *)[[self mainCollectionView] cellForItemAtIndexPath:indexPath];
+        
+        if (progress.floatValue < 1) {
+            NSString *status = [NSString stringWithFormat:@"%d%%", (int)(progress.floatValue * 100)];
+            [cell updateStatus:status];
+        } else {
+            [cell updateStatus:@""];
+        }
+    }
 }
 
 

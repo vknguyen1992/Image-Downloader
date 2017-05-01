@@ -11,5 +11,7 @@
 #import "ImageFolderModel.h"
 
 @interface ImageFolderDetailViewModel : NSObject
+@property (nonatomic, strong) ImageFolderModel *imageFolderModel;
 
+- (NSNumber *)rowForImageModel: (ImageModel *)imageModel;
 @end

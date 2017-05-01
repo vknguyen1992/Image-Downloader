@@ -179,6 +179,12 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     
     NSArray *folderModels = [self imageFolderModels];
     for (ImageFolderModel *folderModel in folderModels) {
+        [folderModel setState:ImageFolderDownloadStateQueueing];
+        if ([folderModel progress] >= 1) {
+            [folderModel setState:ImageFolderDownloadStateFinished];
+        }
+    }
+    for (ImageFolderModel *folderModel in folderModels) {
         
         if ([folderModel progress] == 1) { continue; }
         

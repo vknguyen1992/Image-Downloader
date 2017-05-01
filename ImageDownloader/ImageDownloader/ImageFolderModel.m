@@ -9,6 +9,10 @@
 #import "ImageFolderModel.h"
 
 @implementation ImageFolderModel
++ (NSArray *)ignoredProperties {
+    return @[@"state"];
+}
+
 + (ImageFolderModel *)createWithName: (NSString *)name andPath: (NSString *)path
 {
     ImageFolderModel *imageFolderModel = [[ImageFolderModel alloc] init];

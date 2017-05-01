@@ -17,6 +17,7 @@
     ImageFolderOperation *imageFolderOperation = [[ImageFolderOperation alloc] init];
     __weak ImageFolderOperation *weakImageOperation = imageFolderOperation;
     [imageFolderOperation addExecutionBlock:^{
+        [imageFolderModel setState:ImageFolderDownloadStateDownloading];
         [weakImageOperation downloadImagesFromImageFolderModel:imageFolderModel withImageProgressBlock:imageProgessBlock andOverallProgressBlock:overallProgessBlock];
     }];
     
@@ -60,6 +61,8 @@
             overallProgessBlock([imageFolderModel progress]);
         }];
     }
+    
+    [imageFolderModel setState:ImageFolderDownloadStateFinished];
 }
 
 - (NSArray *)readImageUrlListFromFilePath: (NSString *)filePath

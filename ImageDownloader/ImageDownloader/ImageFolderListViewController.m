@@ -149,6 +149,9 @@
     ImageFolderModel *imageFolderModel = [[[self viewModel] imageFolders] objectAtIndex:[indexPath row]];
     [cell configureCellWithTitle:[imageFolderModel name]];
     [cell updateProgress:[imageFolderModel progress]];
+    
+    [cell updateStatus:[[self viewModel] stateStringFromFolderModel:imageFolderModel]];
+    
     return cell;
 }
 
@@ -173,6 +176,8 @@
         ImageFolderListTableViewCell *cell = [[self mainTableView] cellForRowAtIndexPath:indexPath];
         
         [cell updateProgress:progress.floatValue];
+        [cell updateStatus:[[self viewModel] stateStringFromFolderModel:folderModel]];
+        
     }
 }
 
@@ -185,6 +190,7 @@
 {
     [[self concurrencySlider] setMinimumValue:1];
     [[self concurrencySlider] setMaximumValue:[[[self viewModel] imageFolders] count]];
+    [[self concurrencySlider] setValue:1];
     [[self mainTableView] reloadData];
     
     if ([[self viewModel] didDownloadJson]) {

@@ -36,6 +36,10 @@
 
 - (void)startDownloadImagesWithConcurrencyCount: (NSInteger)concurrencyCount;
 {
+    if (concurrencyCount == 0) {
+        concurrencyCount = 1;
+    }
+    
     dispatch_async([[ImageManager sharedManager] backgroundQueue], ^{
         [self setConcurrencyCount:concurrencyCount];
         
@@ -47,7 +51,7 @@
             [[ImageManager sharedManager] getJsonFilesList];
         }
         
-        [[ImageManager sharedManager] downloadAllImageFolderWithConcurrencyNumber:[self concurrencyCount] onCompletion:^{
+        [[ImageManager sharedManager] downloadAllImageFolderWithConcurrencyNumber:concurrencyCount onCompletion:^{
             //
         }];
     });
@@ -80,6 +84,26 @@
 - (void)pause
 {
     [[ImageManager sharedManager] stopDownloading];
+}
+
+- (NSString *)stateStringFromFolderModel: (ImageFolderModel *)folderModel
+{
+    switch ([folderModel state]) {
+        case ImageFolderDownloadStateQueueing:
+            return @"Queueing";
+            break;
+            
+        case ImageFolderDownloadStateDownloading:
+            return @"Downloading";
+            break;
+            
+        case ImageFolderDownloadStateFinished:
+            return @"Finished";
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

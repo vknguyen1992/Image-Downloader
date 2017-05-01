@@ -29,8 +29,61 @@
     [self setupViews];
     [self setupLayouts];
     [self setupObservers];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setupNavigationBar];
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *resetButton = [[UIBarButtonItem alloc]
+                                    initWithTitle:@"Reset"
+                                    style:UIBarButtonItemStylePlain
+                                    target:self
+                                    action:@selector(resetButtonPressed:)];
     
-    [[self viewModel] startDownloadImagesWithConcurrencyCount:1];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:@"Add"
+                                     style:UIBarButtonItemStylePlain
+                                     target:self
+                                     action:@selector(addButtonPressed:)];
+    
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:resetButton, addButton, nil];
+    
+    if ([[self viewModel] didDownloadJson]) {
+        [self showPauseResumeButton];
+    } else {
+        [self hidePauseResumeButton];
+    }
+}
+
+- (void)showPauseResumeButton
+{
+    UIBarButtonItem *pauseResumeButton = [[UIBarButtonItem alloc]
+                                          initWithTitle:@"Resume"
+                                          style:UIBarButtonItemStylePlain
+                                          target:self
+                                          action:@selector(pauseResumeButtonPressed:)];
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:pauseResumeButton, nil];
+    [self setPauseResumeButtonTitle];
+}
+
+- (void)hidePauseResumeButton
+{
+    self.navigationItem.rightBarButtonItems = nil;
+}
+
+- (void)setPauseResumeButtonTitle
+{
+    if (![[self viewModel] isDownloading]) {
+        [self.navigationItem.rightBarButtonItems[0] setTitle:@"Resume"];
+    } else {
+        [self.navigationItem.rightBarButtonItems[0] setTitle:@"Pause"];
+    }
 }
 
 - (void)dealloc
@@ -128,18 +181,51 @@
 
 - (void)doneDownloadAndUnzipImageFolderNotification: (NSNotification *)notification
 {
-    // update concurrentySlide max value after download and unzip json folder
     [[self concurrencySlider] setMinimumValue:1];
     [[self concurrencySlider] setMaximumValue:[[[self viewModel] imageFolders] count]];
     [[self mainTableView] reloadData];
+    
+    if ([[self viewModel] didDownloadJson]) {
+        [self showPauseResumeButton];
+    } else {
+        [self hidePauseResumeButton];
+    }
 }
 
 #pragma mark - events
 - (void)concurrentcySliderChange: (UISlider *)slider
 {
     NSInteger newStep = (NSInteger)[slider value];
-    [slider setValue:newStep];
+//    [slider setValue:newStep];
     [[self viewModel] updateConcurrencyCount:newStep];
+}
+
+- (void)resetButtonPressed:(id)sender
+{
+    [[self viewModel] reset];
+    [[self mainTableView] reloadData];
+    [self hidePauseResumeButton];
+}
+
+- (void)addButtonPressed:(id)sender
+{
+    [[self viewModel] startDownloadImagesWithConcurrencyCount:[[self concurrencySlider] value]];
+    
+    [[self viewModel] setIsDownloading:YES];
+    [self setPauseResumeButtonTitle];
+}
+
+- (void)pauseResumeButtonPressed:(id)sender
+{
+    if ([[self viewModel] isDownloading]) {
+        [[self viewModel] setIsDownloading:NO];
+        [[self viewModel] pause];
+        [self setPauseResumeButtonTitle];
+    } else {
+        [[self viewModel] setIsDownloading:YES];
+        [[self viewModel] startDownloadImagesWithConcurrencyCount:[[self concurrencySlider] value]];
+        [self setPauseResumeButtonTitle];
+    }
 }
 
 @end

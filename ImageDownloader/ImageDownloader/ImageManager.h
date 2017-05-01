@@ -25,7 +25,7 @@ static NSString * const kNotificationDoneDownloadAndUnzipImageFolder = @"kNotifi
 
 @property (readonly, nonatomic, strong) dispatch_queue_t backgroundQueue;
 
-- (void)dropDb;
+//- (void)dropDb;
 - (void)downloadImageJsonFolder;
 - (NSArray *)getJsonFilesList;
 - (void)downloadAllImageFolderWithConcurrencyNumber: (NSInteger)concurrencyCount onCompletion: (void (^)(void))completionBlock;
@@ -36,4 +36,6 @@ static NSString * const kNotificationDoneDownloadAndUnzipImageFolder = @"kNotifi
 
 - (BOOL)getDidDownloadJson;
 - (void)setDidDownloadJson: (BOOL)didDownloadJson;
+
+- (void)reset;
 @end

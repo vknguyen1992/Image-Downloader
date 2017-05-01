@@ -9,6 +9,18 @@
 #import "ImageFolderListViewModel.h"
 
 @implementation ImageFolderListViewModel
+- (id)init {
+    if ( self = [super init] ) {
+        _isDownloading = false;
+    }
+    return self;
+}
+
+- (BOOL)didDownloadJson
+{
+    return [[ImageManager sharedManager] getDidDownloadJson];
+}
+
 - (NSArray *)imageFolders
 {
     return [[ImageManager sharedManager] imageFolderModels];
@@ -50,6 +62,16 @@
 - (void)updateConcurrencyCount: (NSInteger)concurrencyCount;
 {
     [[ImageManager sharedManager] updateConcurrencyCount:concurrencyCount];
+}
+
+- (void)reset
+{
+    [[ImageManager sharedManager] reset];
+}
+
+- (void)pause
+{
+    [[ImageManager sharedManager] stopDownloading];
 }
 
 @end

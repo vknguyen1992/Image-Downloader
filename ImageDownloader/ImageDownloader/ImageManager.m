@@ -97,14 +97,6 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     [SSZipArchive unzipFileAtPath:[self zipFilePath] toDestination:[self downloadFileFolderPath]];
 }
 
-- (void)dropDb
-{
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm beginWriteTransaction];
-    [realm deleteAllObjects];
-    [realm commitWriteTransaction];
-}
-
 - (BOOL)getDidDownloadJson
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultsDidDownloadJson];
@@ -214,14 +206,27 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     [[self imageFolderDownloadQueue] addOperation:completionOperation];
 }
 
+- (void)reset
+{
+    [self setDidDownloadJson:NO];
+    [self dropDb];
+    [self removeDownloadFolder];
+    [self stopDownloading];
+    [self setImageFolderModels:nil];
+    [self setImageFolderDownloadQueue:[[ImageOperationQueue alloc] init]];
+}
+
+- (void)dropDb
+{
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    [realm deleteAllObjects];
+    [realm commitWriteTransaction];
+}
+
 - (void)removeDownloadFolder
 {
     [[NSFileManager defaultManager] removeItemAtPath:[self downloadFileFolderPath] error:nil];
-}
-
-- (void)pauseDownloading
-{
-    [[self imageFolderDownloadQueue] cancelAllOperations];
 }
 
 - (void)stopDownloading

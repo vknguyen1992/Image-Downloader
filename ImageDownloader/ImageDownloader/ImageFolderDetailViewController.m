@@ -82,10 +82,14 @@
 {
     ImageFolderDetailCollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kImageFolderDetailCollectionViewCellIdentifier forIndexPath:indexPath];
     
-    ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
-    if (imageModel != nil) {
-        UIImage *image = [self imageFromImageModel:imageModel];
-        [cell updateImage:image];
+    if (indexPath.row < [[[self imageFolderModel] imageModels] count]) {
+        ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
+        if (imageModel != nil) {
+            UIImage *image = [self imageFromImageModel:imageModel];
+            [cell updateImage:image];
+        } else {
+            [cell updateImage:nil];
+        }
     } else {
         [cell updateImage:nil];
     }

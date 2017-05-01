@@ -17,7 +17,7 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
-    [realm addObject:imageFolderModel];
+    [realm addOrUpdateObject:imageFolderModel];
     [realm commitWriteTransaction];
 
     return [imageFolderModel clone];

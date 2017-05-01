@@ -12,9 +12,13 @@
 
 @interface ImageFolderListViewModel : NSObject
 @property (nonatomic, assign) NSInteger concurrencyCount;
+@property (nonatomic, assign) BOOL isDownloading;
 
 - (NSArray *)imageFolders;
 - (void)startDownloadImagesWithConcurrencyCount: (NSInteger)concurrencyCount;
 - (NSNumber *)rowForImageFolderModel: (ImageFolderModel *)imageFolderModel;
 - (void)updateConcurrencyCount: (NSInteger)concurrencyCount;
+- (void)reset;
+- (void)pause;
+- (BOOL)didDownloadJson;
 @end

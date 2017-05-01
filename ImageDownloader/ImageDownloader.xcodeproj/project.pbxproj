@@ -25,6 +25,7 @@
 		CF0472311EB5C77F006D0A2B /* ImageFolderDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472301EB5C77F006D0A2B /* ImageFolderDetailViewModel.m */; };
 		CF0472341EB5C78B006D0A2B /* ImageDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472331EB5C78B006D0A2B /* ImageDetailViewModel.m */; };
 		CF0472381EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0472371EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m */; };
+		CF04723B1EB71580006D0A2B /* ImageFolderDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF04723A1EB71580006D0A2B /* ImageFolderDetailCollectionViewCell.m */; };
 		CF219E571EB3977900AB1471 /* ImageFolderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E561EB3977900AB1471 /* ImageFolderModel.m */; };
 		CF219E5A1EB39FF100AB1471 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E591EB39FF100AB1471 /* ImageModel.m */; };
 		CF219E5D1EB3A4D700AB1471 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF219E5C1EB3A4D700AB1471 /* ImageDownloader.m */; };
@@ -89,6 +90,8 @@
 		CF0472331EB5C78B006D0A2B /* ImageDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewModel.m; sourceTree = "<group>"; };
 		CF0472361EB5D2B3006D0A2B /* ImageFolderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderListTableViewCell.h; sourceTree = "<group>"; };
 		CF0472371EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderListTableViewCell.m; sourceTree = "<group>"; };
+		CF0472391EB71580006D0A2B /* ImageFolderDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderDetailCollectionViewCell.h; sourceTree = "<group>"; };
+		CF04723A1EB71580006D0A2B /* ImageFolderDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderDetailCollectionViewCell.m; sourceTree = "<group>"; };
 		CF219E551EB3977900AB1471 /* ImageFolderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFolderModel.h; sourceTree = "<group>"; };
 		CF219E561EB3977900AB1471 /* ImageFolderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFolderModel.m; sourceTree = "<group>"; };
 		CF219E581EB39FF100AB1471 /* ImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModel.h; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 			children = (
 				CF0472361EB5D2B3006D0A2B /* ImageFolderListTableViewCell.h */,
 				CF0472371EB5D2B3006D0A2B /* ImageFolderListTableViewCell.m */,
+				CF0472391EB71580006D0A2B /* ImageFolderDetailCollectionViewCell.h */,
+				CF04723A1EB71580006D0A2B /* ImageFolderDetailCollectionViewCell.m */,
 			);
 			name = VIews;
 			sourceTree = "<group>";
@@ -576,6 +581,7 @@
 				CF0472251EB5C749006D0A2B /* ImageFolderListViewController.m in Sources */,
 				CF0472311EB5C77F006D0A2B /* ImageFolderDetailViewModel.m in Sources */,
 				CF04722B1EB5C765006D0A2B /* ImageDetailViewController.m in Sources */,
+				CF04723B1EB71580006D0A2B /* ImageFolderDetailCollectionViewCell.m in Sources */,
 				CF219E5A1EB39FF100AB1471 /* ImageModel.m in Sources */,
 				CF00F2361EB37C6900E1C3B1 /* ImageDownloader.xcdatamodeld in Sources */,
 				CF04722E1EB5C774006D0A2B /* ImageFolderListViewModel.m in Sources */,

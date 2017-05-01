@@ -11,6 +11,7 @@
 #import "ImageFolderListViewModel.h"
 #import "ImageFolderModel.h"
 #import "ImageFolderListTableViewCell.h"
+#import "ImageFolderDetailViewController.h"
 
 @interface ImageFolderListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) ImageFolderListViewModel *viewModel;
@@ -94,6 +95,14 @@
     [cell configureCellWithTitle:[imageFolderModel name]];
     [cell updateProgress:[imageFolderModel progress]];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ImageFolderModel *imageFolderModel = [[[self viewModel] imageFolders] objectAtIndex:[indexPath row]];
+    ImageFolderDetailViewController *vc = [[ImageFolderDetailViewController alloc] init];
+    [vc setImageFolderModel:imageFolderModel];
+    [[self navigationController] pushViewController:vc animated:YES];
 }
 
 #pragma mark - notifications

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImageFolderDetailViewModel.h"
 
 @interface ImageFolderDetailViewController : UIViewController
-
+@property (nonatomic, strong) ImageFolderModel *imageFolderModel;
 @end

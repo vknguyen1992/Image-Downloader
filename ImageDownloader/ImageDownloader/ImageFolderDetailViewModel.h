@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ImageManager.h"
+#import "ImageFolderModel.h"
 
 @interface ImageFolderDetailViewModel : NSObject
 

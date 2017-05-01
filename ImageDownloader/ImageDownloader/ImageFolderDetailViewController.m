@@ -8,6 +8,7 @@
 
 #import "ImageFolderDetailViewController.h"
 #import "ImageFolderDetailCollectionViewCell.h"
+#import "ImageDetailViewController.h"
 #import "Masonry.h"
 
 @interface ImageFolderDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
@@ -66,20 +67,25 @@
 }
 
 #pragma mark collection view delegates
+- (UIImage *)imageFromImageModel: (ImageModel *)imageModel
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths objectAtIndex:0];
+    NSString *folderName = [[[[self imageFolderModel] path] componentsSeparatedByString:@"."] firstObject];
+    folderName = [documentPath stringByAppendingPathComponent:folderName];
+    NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
+    
+    return [UIImage imageWithContentsOfFile:imagePath];
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ImageFolderDetailCollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kImageFolderDetailCollectionViewCellIdentifier forIndexPath:indexPath];
     
     ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
     if (imageModel != nil) {
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentPath = [paths objectAtIndex:0];
-        NSString *folderName = [[[[self imageFolderModel] path] componentsSeparatedByString:@"."] firstObject];
-        folderName = [documentPath stringByAppendingPathComponent:folderName];
-        NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
-        
-        [cell updateImage:[UIImage imageWithContentsOfFile:imagePath]];
+        UIImage *image = [self imageFromImageModel:imageModel];
+        [cell updateImage:image];
     } else {
         [cell updateImage:nil];
     }
@@ -89,7 +95,13 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    ImageDetailViewController *vc = [[ImageDetailViewController alloc] init];
+    ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
+    if (imageModel != nil) {
+        UIImage *image = [self imageFromImageModel:imageModel];
+        [vc updateImage:image];
+    }
+    [[self navigationController] pushViewController:vc animated:YES];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

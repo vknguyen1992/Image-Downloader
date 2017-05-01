@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ImageDetailViewController : UIViewController
-
+- (void)updateImage: (UIImage *)image;
 @end

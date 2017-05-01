@@ -50,17 +50,17 @@
             folderName = [documentPath stringByAppendingPathComponent:folderName];
             
             [[NSFileManager defaultManager] createDirectoryAtPath:folderName withIntermediateDirectories:YES attributes:nil error:&error];
-            
+
             NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
-            [[imageDownloader data] writeToFile:imagePath options:NSDataWritingAtomic error:&error];
+
+            BOOL success = [[NSFileManager defaultManager] copyItemAtPath:[[imageDownloader tempDownloadedFileLocation] relativePath] toPath:imagePath error:&error];
             
-            [imageModel updateDidCompleteDownload:YES];
+            [imageModel updateDidCompleteDownload:success];
             [imageFolderModel recomputeProgress];
             overallProgessBlock([imageFolderModel progress]);
         }];
     }
 }
-
 
 - (NSArray *)readImageUrlListFromFilePath: (NSString *)filePath
 {

@@ -12,7 +12,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (copy) void (^backgroundSessionCompletionHandler)();
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
 
 - (void)saveContext;

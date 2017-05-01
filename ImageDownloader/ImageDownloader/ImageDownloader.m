@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "ImageDownloader.h"
+#import "AppDelegate.h"
 
 @interface ImageDownloader()
 @property (nonatomic, strong) NSString *url;
-@property (nonatomic, assign) CGFloat totalBytes;
 @property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, strong) NSMutableData *data;
+@property (nonatomic, strong) NSURL *tempDownloadedFileLocation;
 
 @property (nonnull, strong) dispatch_semaphore_t semaphore;
 
@@ -36,34 +36,35 @@
 - (void)startDownload
 {
     NSURL *url = [NSURL URLWithString:[self url]];
-    [self setData:[[NSMutableData alloc] initWithLength:0]];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:[self url]];
+    [config setSessionSendsLaunchEvents:YES];
+    [config setDiscretionary:YES];
+
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
 
     [self setSemaphore:dispatch_semaphore_create(0)];
-    NSURLSessionDataTask *task = [session dataTaskWithURL:url];
+    NSURLSessionDownloadTask *task = [session downloadTaskWithURL:url];
     [task resume];
     dispatch_semaphore_wait([self semaphore], DISPATCH_TIME_FOREVER);
+}
+
+#pragma mark - delegates
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+{
+    [self setTempDownloadedFileLocation:location];
+    dispatch_semaphore_signal([self semaphore]);
     self.completionBlock(self);
 }
 
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    [[self data] setLength:0];
-    self.totalBytes = response.expectedContentLength;
-    completionHandler(NSURLSessionResponseAllow);
+    NSLog(@"Received data %lu bytes", (unsigned long)totalBytesWritten);
+    self.progressBlock(((float)totalBytesWritten) / ((float)totalBytesExpectedToWrite));
 }
-
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
-{
-    [[self data] appendData:data];
-    if ([[self data] length] == [self totalBytes]) {
-        dispatch_semaphore_signal([self semaphore]);
-    }
-    CGFloat progress = [[self data] length] / [self totalBytes];
-    self.progressBlock(progress);
-}
-
 
 @end

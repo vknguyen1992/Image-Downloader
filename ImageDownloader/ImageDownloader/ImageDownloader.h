@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ImageDownloader : NSObject<NSURLSessionDataDelegate>
-@property (readonly, nonatomic, strong) NSMutableData *data;
+@interface ImageDownloader : NSObject<NSURLSessionDownloadDelegate>//<NSURLSessionDataDelegate>
+@property (readonly, nonatomic, strong) NSURL *tempDownloadedFileLocation;
 
 - (instancetype)initWithUrl: (NSString *)url progressBlock: (void (^)(CGFloat progress))progressBlock completionBlock:(void (^)(ImageDownloader *imageDownloader))completionBlock;
 - (void)startDownload;

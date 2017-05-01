@@ -26,6 +26,10 @@
     return [imageModel clone];
 }
 
++ (NSString *)primaryKey {
+    return @"url";
+}
+
 - (ImageModel *)clone
 {
     ImageModel *cloneObj = [[ImageModel alloc] init];
@@ -44,8 +48,11 @@
     ImageModel *clonedObj = [self clone];
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm beginWriteTransaction];
+
     [clonedObj setProgress:progress];
+    
+    [realm beginWriteTransaction];
+    [realm addOrUpdateObject:clonedObj];
     [realm commitWriteTransaction];
 }
 
@@ -56,8 +63,11 @@
     ImageModel *clonedObj = [self clone];
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm beginWriteTransaction];
+
     [clonedObj setDidCompleteDownload:didCompleteDownload];
+    
+    [realm beginWriteTransaction];
+    [realm addOrUpdateObject:clonedObj];
     [realm commitWriteTransaction];
 }
 

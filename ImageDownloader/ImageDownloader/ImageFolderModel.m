@@ -23,6 +23,10 @@
     return [imageFolderModel clone];
 }
 
++ (NSString *)primaryKey {
+    return @"path";
+}
+
 - (ImageFolderModel *)clone
 {
     ImageFolderModel *cloneObj = [[ImageFolderModel alloc] init];
@@ -42,7 +46,7 @@
 
 - (void)recomputeProgress
 {
-    CGFloat imageUrlsCount = [[self imageModels] count];
+    CGFloat imageUrlsCount = [self imagesCount];
     
     CGFloat completeImageModelsCount = 0;
     RLMArray<ImageModel *><ImageModel> *imageModels = [self imageModels];
@@ -57,8 +61,11 @@
     ImageFolderModel *clonedObjc = [self clone];
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm beginWriteTransaction];
+    
     clonedObjc.progress = completeImageModelsCount / imageUrlsCount;
+    
+    [realm beginWriteTransaction];
+    [realm addOrUpdateObject:clonedObjc];
     [realm commitWriteTransaction];
 }
 
@@ -73,8 +80,10 @@
         ImageModel *clonedImageModel = [imageModel clone];
         RLMRealm *realm = [RLMRealm defaultRealm];
         
-        [realm beginWriteTransaction];
         [[clonedImageFolderModel imageModels] addObject:clonedImageModel];
+        
+        [realm beginWriteTransaction];
+        [realm addOrUpdateObject:clonedImageFolderModel];
         [realm commitWriteTransaction];
         
         return imageModel;
@@ -106,4 +115,20 @@
     }
     return @"";
 }
+
+- (void)updateImageCount: (int)imageCount
+{
+    [self setImagesCount:imageCount];
+    
+    ImageFolderModel *clonedObjc = [self clone];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+
+    clonedObjc.imagesCount = imageCount;
+    
+    [realm beginWriteTransaction];
+    [realm addOrUpdateObject:clonedObjc];
+    [realm commitWriteTransaction];
+}
+
 @end

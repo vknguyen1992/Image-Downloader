@@ -16,11 +16,14 @@ RLM_ARRAY_TYPE(ImageModel)
 @property NSString *name;
 @property NSString *path;
 @property float progress;
+@property int imagesCount;
 @property RLMArray<ImageModel *><ImageModel> *imageModels;
 
 + (ImageFolderModel *)createWithName: (NSString *)name andPath: (NSString *)path;
 - (void)recomputeProgress;
 - (ImageModel *)addImageToImageModelsFromUrl: (NSString *)url;
+
+- (void)updateImageCount: (int)imageCount;
 
 - (ImageFolderModel *)clone;
 @end

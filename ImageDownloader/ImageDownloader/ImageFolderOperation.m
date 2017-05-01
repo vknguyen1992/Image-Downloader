@@ -26,6 +26,7 @@
 - (void)downloadImagesFromImageFolderModel: (ImageFolderModel *)imageFolderModel withImageProgressBlock:(void (^)(ImageModel *imageModel, CGFloat progress))imageProgessBlock andOverallProgressBlock:(void (^)(CGFloat progress))overallProgessBlock
 {
     NSArray *imageUrls = [self readImageUrlListFromFilePath:[imageFolderModel path]];
+    [imageFolderModel updateImageCount:(int)[imageUrls count]];
     for (NSString *url in imageUrls) {
         
         if ([self isCancelled]) {

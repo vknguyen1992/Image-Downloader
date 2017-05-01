@@ -41,6 +41,7 @@
         ImageModel *imageModel = [imageFolderModel addImageToImageModelsFromUrl:url];
         if (imageModel == nil || [imageModel didCompleteDownload]) { continue; }
 
+        [imageModel setState:ImageDownloadStateDownloading];
         [self downloadImageFromUrl:url withProgressBlock:^(CGFloat progress) {
             [imageModel updateProgress:progress];
             imageProgessBlock(imageModel, progress);
@@ -55,6 +56,14 @@
             NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
 
             BOOL success = [[NSFileManager defaultManager] copyItemAtPath:[[imageDownloader tempDownloadedFileLocation] relativePath] toPath:imagePath error:&error];
+            
+            if (error) {
+                [imageModel setState:ImageDownloadStateError];
+            } else {
+                [imageModel updateProgress:1.0];
+                imageProgessBlock(imageModel, 1.0);
+                [imageModel setState:ImageDownloadStateFinished];
+            }
             
             [imageModel updateDidCompleteDownload:success];
             [imageFolderModel recomputeProgress];

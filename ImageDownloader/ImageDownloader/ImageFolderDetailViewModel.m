@@ -24,4 +24,29 @@
     return nil;
 }
 
+//- (NSString *)stateStringFromFolderModel: (ImageModel *)imageModel
+- (NSString *)stateStringFromFolderModel: (ImageDownloadState)imageModelstate progress: (float)progress
+{
+    switch (imageModelstate) {
+        case ImageDownloadStateQueueing:
+            return @"Queueing";
+            break;
+            
+        case ImageDownloadStateDownloading:
+            return [NSString stringWithFormat:@"%d%%", (int)(progress * 100)];
+            break;
+            
+        case ImageDownloadStateFinished:
+            return @"";
+            break;
+            
+        case ImageDownloadStateError:
+            return @"Error";
+            break;
+            
+        default:
+            break;
+    }
+}
+
 @end

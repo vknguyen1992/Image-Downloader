@@ -174,6 +174,8 @@
         NSNumber *row = [[self viewModel] rowForImageFolderModel:folderModel];
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row.integerValue inSection:0];
         ImageFolderListTableViewCell *cell = [[self mainTableView] cellForRowAtIndexPath:indexPath];
+
+//        [[self mainTableView] reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         
         [cell updateProgress:progress.floatValue];
         [cell updateStatus:[[self viewModel] stateStringFromFolderModel:folderModel]];

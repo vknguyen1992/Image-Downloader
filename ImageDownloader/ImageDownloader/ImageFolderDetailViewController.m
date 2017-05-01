@@ -41,6 +41,8 @@
 
 - (void)setupViews
 {
+    [[self view] setBackgroundColor:[UIColor grayColor]];
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumInteritemSpacing = 3;
@@ -91,8 +93,14 @@
         } else {
             [cell updateImage:nil];
         }
+        
+        NSString *statusString = [[self viewModel] stateStringFromFolderModel:[imageModel state] progress:[imageModel progress]];
+        [cell updateStatus:statusString];
     } else {
         [cell updateImage:nil];
+
+        NSString *statusString = [[self viewModel] stateStringFromFolderModel:ImageDownloadStateQueueing progress:0];
+        [cell updateStatus:statusString];
     }
     
     return cell;
@@ -101,11 +109,16 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ImageDetailViewController *vc = [[ImageDetailViewController alloc] init];
-    ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
-    if (imageModel != nil) {
-        UIImage *image = [self imageFromImageModel:imageModel];
-        [vc updateImage:image];
+    
+    if (indexPath.row < [[[self imageFolderModel] imageModels] count]) {
+    
+        ImageModel *imageModel = [[[self imageFolderModel] imageModels] objectAtIndex:indexPath.row];
+        if (imageModel != nil) {
+            UIImage *image = [self imageFromImageModel:imageModel];
+            [vc updateImage:image];
+        }
     }
+    
     [[self navigationController] pushViewController:vc animated:YES];
 }
 
@@ -127,14 +140,23 @@
         NSNumber *progress = [userInfo objectForKey:kNotificationFileProgressProgressKey];
         
         NSNumber *row = [[self viewModel] rowForImageModel:imageModel];
+        if (row == nil) {
+            return;
+        }
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row.integerValue inSection:0];
         ImageFolderDetailCollectionViewCell *cell = (ImageFolderDetailCollectionViewCell *)[[self mainCollectionView] cellForItemAtIndexPath:indexPath];
         
-        if (progress.floatValue < 1) {
-            NSString *status = [NSString stringWithFormat:@"%d%%", (int)(progress.floatValue * 100)];
-            [cell updateStatus:status];
-        } else {
-            [cell updateStatus:@""];
+//        [[self mainCollectionView] reloadItemsAtIndexPaths:@[indexPath]];
+        
+        NSString *statusString = [[self viewModel] stateStringFromFolderModel:[imageModel state] progress:[imageModel progress]];
+        [cell updateStatus:statusString];
+        
+        if (progress.floatValue >= 1) {
+            UIImage *image = [self imageFromImageModel:imageModel];
+            [cell updateImage:image];
+            
+            NSString *statusString = [[self viewModel] stateStringFromFolderModel:ImageDownloadStateFinished progress:0];
+            [cell updateStatus:statusString];
         }
     }
 }

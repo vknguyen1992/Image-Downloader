@@ -12,6 +12,10 @@
 @end
 
 @implementation ImageModel
++ (NSArray *)ignoredProperties {
+    return @[@"state"];
+}
+
 + (ImageModel *)createWithName: (NSString *)name andUrl: (NSString *)url
 {
     ImageModel *imageModel = [[ImageModel alloc] init];

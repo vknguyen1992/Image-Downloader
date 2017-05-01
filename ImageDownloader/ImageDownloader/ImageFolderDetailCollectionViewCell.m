@@ -27,6 +27,8 @@
 
 - (void)setupViews
 {
+    [self setBackgroundColor:[UIColor grayColor]];
+    
     [self setImageView:[[UIImageView alloc] initWithFrame:CGRectZero]];
     [self setStatusLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
     

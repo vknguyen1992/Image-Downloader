@@ -55,6 +55,7 @@
     RLMArray<ImageModel *><ImageModel> *imageModels = [self imageModels];
     for (ImageModel *imageModel in imageModels) {
         if ([imageModel didCompleteDownload] == YES) {
+//        if ([imageModel state] == ImageDownloadStateFinished) {
             completeImageModelsCount ++;
         }
     }

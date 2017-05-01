@@ -14,4 +14,5 @@
 @property (nonatomic, strong) ImageFolderModel *imageFolderModel;
 
 - (NSNumber *)rowForImageModel: (ImageModel *)imageModel;
+- (NSString *)stateStringFromFolderModel: (ImageDownloadState)imageModelstate progress: (float)progress;
 @end

@@ -151,7 +151,17 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     RLMResults<ImageFolderModel *> *imageFolderModels = [ImageFolderModel allObjects];
     NSMutableArray *tmpImageFolders = [[NSMutableArray alloc] init];
     for (ImageFolderModel *folder in imageFolderModels) {
-        [tmpImageFolders addObject:[folder clone]];
+        ImageFolderModel *clonedFolder = [folder clone];
+        [tmpImageFolders addObject:clonedFolder];
+        
+        RLMArray<ImageModel *><ImageModel> *imageModels = [clonedFolder imageModels];
+        for (ImageModel *model in imageModels) {
+            if ([model progress] >= 1) {
+                [model setState:ImageDownloadStateFinished];
+            } else {
+                [model setState:ImageDownloadStateQueueing];
+            }
+        }
     }
     
     [self setImageFolderModels:tmpImageFolders];

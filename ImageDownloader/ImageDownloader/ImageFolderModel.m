@@ -35,11 +35,10 @@
     [cloneObj setProgress:[self progress]];
     
     RLMArray<ImageModel *><ImageModel> *imageModels = [self imageModels];
-    RLMArray<ImageModel *><ImageModel> *clonedImageModels;
+    [[cloneObj imageModels] removeAllObjects];
     for (ImageModel *imageModel in imageModels) {
-        [clonedImageModels addObject:[imageModel clone]];
+        [[cloneObj imageModels] addObject:[imageModel clone]];
     }
-    [cloneObj setImageModels:clonedImageModels];
     
     return cloneObj;
 }
@@ -72,17 +71,21 @@
 - (ImageModel *)addImageToImageModelsFromUrl: (NSString *)url
 {
     if (![self checkImageUrlExist:url]) {
+        
         NSString *imageName = [self imageNameFromImageUrl:url];
         ImageModel *imageModel = [ImageModel createWithName:imageName andUrl:url];
-        [[self imageModels] addObject:imageModel];
         
         ImageFolderModel *clonedImageFolderModel = [self clone];
         ImageModel *clonedImageModel = [imageModel clone];
+        
+        [[self imageModels] addObject:imageModel];
+        
         RLMRealm *realm = [RLMRealm defaultRealm];
         
         [[clonedImageFolderModel imageModels] addObject:clonedImageModel];
         
         [realm beginWriteTransaction];
+        [realm addOrUpdateObject:clonedImageModel];
         [realm addOrUpdateObject:clonedImageFolderModel];
         [realm commitWriteTransaction];
         

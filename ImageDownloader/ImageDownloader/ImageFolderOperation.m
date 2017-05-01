@@ -25,7 +25,11 @@
 
 - (void)downloadImagesFromImageFolderModel: (ImageFolderModel *)imageFolderModel withImageProgressBlock:(void (^)(ImageModel *imageModel, CGFloat progress))imageProgessBlock andOverallProgressBlock:(void (^)(CGFloat progress))overallProgessBlock
 {
-    NSArray *imageUrls = [self readImageUrlListFromFilePath:[imageFolderModel path]];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths objectAtIndex:0];
+    NSString *path = [documentPath stringByAppendingPathComponent:[imageFolderModel path]];
+    
+    NSArray *imageUrls = [self readImageUrlListFromFilePath:path];
     [imageFolderModel updateImageCount:(int)[imageUrls count]];
     for (NSString *url in imageUrls) {
         
@@ -34,7 +38,7 @@
         }
         
         ImageModel *imageModel = [imageFolderModel addImageToImageModelsFromUrl:url];
-        if ([imageModel didCompleteDownload]) { continue; }
+        if (imageModel == nil || [imageModel didCompleteDownload]) { continue; }
 
         [self downloadImageFromUrl:url withProgressBlock:^(CGFloat progress) {
             [imageModel updateProgress:progress];
@@ -43,6 +47,8 @@
             NSError *error;
             
             NSString *folderName = [[[imageFolderModel path] componentsSeparatedByString:@"."] firstObject];
+            folderName = [documentPath stringByAppendingPathComponent:folderName];
+            
             [[NSFileManager defaultManager] createDirectoryAtPath:folderName withIntermediateDirectories:YES attributes:nil error:&error];
             
             NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
@@ -58,7 +64,9 @@
 
 - (NSArray *)readImageUrlListFromFilePath: (NSString *)filePath
 {
-    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
+    
     NSArray *filesList =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     return filesList;
 }

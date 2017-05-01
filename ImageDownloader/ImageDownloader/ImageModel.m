@@ -20,7 +20,7 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
-    [realm addObject:imageModel];
+    [realm addOrUpdateObject:imageModel];
     [realm commitWriteTransaction];
     
     return [imageModel clone];

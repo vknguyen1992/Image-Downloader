@@ -136,6 +136,9 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
         NSString *extension = [[filename pathExtension] lowercaseString];
         if ([extension isEqualToString:@"json"]) {
             NSString *path = [sourcePath stringByAppendingPathComponent:filename];
+            
+            path = [[path componentsSeparatedByString:@"/Documents"] objectAtIndex:1];
+            
             ImageFolderModel *imageFolderModel = [ImageFolderModel createWithName:filename andPath:path];
             [jsonFiles addObject:imageFolderModel];
         }
@@ -156,8 +159,10 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
     RLMResults<ImageFolderModel *> *imageFolderModels = [ImageFolderModel allObjects];
     NSMutableArray *tmpImageFolders = [[NSMutableArray alloc] init];
     for (ImageFolderModel *folder in imageFolderModels) {
-        [tmpImageFolders addObject:folder];
+        [tmpImageFolders addObject:[folder clone]];
     }
+    
+    [self setImageFolderModels:tmpImageFolders];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDoneDownloadAndUnzipImageFolder object:nil userInfo:nil];
@@ -203,7 +208,9 @@ static NSString * const kImagesJsonDownloadUrl = @"https://storage.googleapis.co
         [completionOperation addDependency:operation];
     }
     
-    [[self imageFolderDownloadQueue] addOperations:completionOperation.dependencies waitUntilFinished:NO];
+    if ([completionOperation.dependencies count] > 0) {
+        [[self imageFolderDownloadQueue] addOperations:completionOperation.dependencies waitUntilFinished:NO];
+    }
     [[self imageFolderDownloadQueue] addOperation:completionOperation];
 }
 

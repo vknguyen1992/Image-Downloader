@@ -92,6 +92,7 @@
     
     ImageFolderModel *imageFolderModel = [[[self viewModel] imageFolders] objectAtIndex:[indexPath row]];
     [cell configureCellWithTitle:[imageFolderModel name]];
+    [cell updateProgress:[imageFolderModel progress]];
     return cell;
 }
 

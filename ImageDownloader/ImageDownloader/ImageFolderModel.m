@@ -9,39 +9,74 @@
 #import "ImageFolderModel.h"
 
 @implementation ImageFolderModel
-- (instancetype)initWithName: (NSString *)name andPath: (NSString *)path
++ (ImageFolderModel *)createWithName: (NSString *)name andPath: (NSString *)path
 {
-    self = [super init];
-    if (self) {
-        _name = name;
-        _path = path;
-        _imageModels = [[NSMutableArray alloc] init];
-        _imageUrls = [[NSArray alloc] init];
+    ImageFolderModel *imageFolderModel = [[ImageFolderModel alloc] init];
+    imageFolderModel.name = name;
+    imageFolderModel.path = path;
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    [realm addObject:imageFolderModel];
+    [realm commitWriteTransaction];
+
+    return [imageFolderModel clone];
+}
+
+- (ImageFolderModel *)clone
+{
+    ImageFolderModel *cloneObj = [[ImageFolderModel alloc] init];
+    [cloneObj setName:[self name]];
+    [cloneObj setPath:[self path]];
+    [cloneObj setProgress:[self progress]];
+    
+    RLMArray<ImageModel *><ImageModel> *imageModels = [self imageModels];
+    RLMArray<ImageModel *><ImageModel> *clonedImageModels;
+    for (ImageModel *imageModel in imageModels) {
+        [clonedImageModels addObject:[imageModel clone]];
     }
-    return self;
+    [cloneObj setImageModels:clonedImageModels];
+    
+    return cloneObj;
 }
 
 - (void)recomputeProgress
 {
-    CGFloat imageUrlsCount = [[self imageUrls] count];
+    CGFloat imageUrlsCount = [[self imageModels] count];
     
     CGFloat completeImageModelsCount = 0;
-    NSArray *imageModels = [[self imageModels] copy];
+    RLMArray<ImageModel *><ImageModel> *imageModels = [self imageModels];
     for (ImageModel *imageModel in imageModels) {
         if ([imageModel didCompleteDownload] == YES) {
             completeImageModelsCount ++;
         }
     }
     
-    [self setProgress:(completeImageModelsCount / imageUrlsCount)];
+    self.progress = completeImageModelsCount / imageUrlsCount;
+    
+    ImageFolderModel *clonedObjc = [self clone];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    clonedObjc.progress = completeImageModelsCount / imageUrlsCount;
+    [realm commitWriteTransaction];
 }
 
 - (ImageModel *)addImageToImageModelsFromUrl: (NSString *)url
 {
     if (![self checkImageUrlExist:url]) {
         NSString *imageName = [self imageNameFromImageUrl:url];
-        ImageModel *imageModel = [[ImageModel alloc] initWithName:imageName andUrl:url];
+        ImageModel *imageModel = [ImageModel createWithName:imageName andUrl:url];
         [[self imageModels] addObject:imageModel];
+        
+        ImageFolderModel *clonedImageFolderModel = [self clone];
+        ImageModel *clonedImageModel = [imageModel clone];
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        
+        [realm beginWriteTransaction];
+        [[clonedImageFolderModel imageModels] addObject:clonedImageModel];
+        [realm commitWriteTransaction];
+        
         return imageModel;
     }
     return nil;
@@ -49,7 +84,7 @@
 
 - (BOOL)checkImageUrlExist: (NSString *)url
 {
-    NSArray *imageModels = [self imageModels];
+    RLMArray<ImageModel *><ImageModel> *imageModels = [self imageModels];
     for (ImageModel *imageModel in imageModels) {
         if ([imageModel.url isEqualToString:url]) {
             return YES;

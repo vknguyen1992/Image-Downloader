@@ -9,15 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "ImageModel.h"
+#import <Realm/Realm.h>
 
-@interface ImageFolderModel : NSObject
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *path;
-@property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, strong) NSMutableArray *imageModels;
-@property (nonatomic, strong) NSArray *imageUrls;
+RLM_ARRAY_TYPE(ImageModel)
+@interface ImageFolderModel : RLMObject
+@property NSString *name;
+@property NSString *path;
+@property float progress;
+@property RLMArray<ImageModel *><ImageModel> *imageModels;
 
-- (instancetype)initWithName: (NSString *)name andPath: (NSString *)path;
++ (ImageFolderModel *)createWithName: (NSString *)name andPath: (NSString *)path;
 - (void)recomputeProgress;
 - (ImageModel *)addImageToImageModelsFromUrl: (NSString *)url;
+
+- (ImageFolderModel *)clone;
 @end

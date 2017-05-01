@@ -1,15 +1,20 @@
 PODS:
   - Masonry (1.0.2)
+  - Realm (2.5.0):
+    - Realm/Headers (= 2.5.0)
+  - Realm/Headers (2.5.0)
   - SSZipArchive (1.7)
 
 DEPENDENCIES:
   - Masonry
+  - Realm
   - SSZipArchive
 
 SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  Realm: 62abce501668580092d2be9b6ba7324a3d5f906a
   SSZipArchive: 63f8e11cfcc33e03e4cd666b4359ea8bd6facd0c
 
-PODFILE CHECKSUM: ed4069419ff8200da085d402728312bed14f14d2
+PODFILE CHECKSUM: dd8bb1c10bf898100780ad51b2e0f6ed01c643aa
 
 COCOAPODS: 1.0.1

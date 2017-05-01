@@ -8,14 +8,57 @@
 
 #import "ImageModel.h"
 
+@interface ImageModel()
+@end
+
 @implementation ImageModel
-- (instancetype)initWithName: (NSString *)name andUrl: (NSString *)url
++ (ImageModel *)createWithName: (NSString *)name andUrl: (NSString *)url
 {
-    self = [super init];
-    if (self) {
-        _name = name;
-        _url = url;
-    }
-    return self;
+    ImageModel *imageModel = [[ImageModel alloc] init];
+    imageModel.name = name;
+    imageModel.url = url;
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    [realm addObject:imageModel];
+    [realm commitWriteTransaction];
+    
+    return [imageModel clone];
 }
+
+- (ImageModel *)clone
+{
+    ImageModel *cloneObj = [[ImageModel alloc] init];
+    [cloneObj setName:[self name]];
+    [cloneObj setUrl:[self url]];
+    [cloneObj setProgress:[self progress]];
+    [cloneObj setDidCompleteDownload:[self didCompleteDownload]];
+    
+    return cloneObj;
+}
+
+- (void)updateProgress: (float)progress
+{
+    [self setProgress:progress];
+    
+    ImageModel *clonedObj = [self clone];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    [clonedObj setProgress:progress];
+    [realm commitWriteTransaction];
+}
+
+- (void)updateDidCompleteDownload: (float)didCompleteDownload
+{
+    [self setDidCompleteDownload:didCompleteDownload];
+    
+    ImageModel *clonedObj = [self clone];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    [clonedObj setDidCompleteDownload:didCompleteDownload];
+    [realm commitWriteTransaction];
+}
+
 @end

@@ -8,12 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <Realm/Realm.h>
 
-@interface ImageModel : NSObject
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, assign) BOOL didCompleteDownload; // TODO recheck didCompletedCondition
+@interface ImageModel : RLMObject
+@property NSString *name;
+@property NSString *url;
+@property float progress;
+@property BOOL didCompleteDownload; // TODO recheck didCompletedCondition
 
-- (instancetype)initWithName: (NSString *)name andUrl: (NSString *)url;
++ (ImageModel *)createWithName: (NSString *)name andUrl: (NSString *)url;
+- (void)updateProgress: (float)progress;
+- (void)updateDidCompleteDownload: (float)didCompleteDownload;
+
+- (ImageModel *)clone;
 @end

@@ -26,7 +26,6 @@
 - (void)downloadImagesFromImageFolderModel: (ImageFolderModel *)imageFolderModel withImageProgressBlock:(void (^)(ImageModel *imageModel, CGFloat progress))imageProgessBlock andOverallProgressBlock:(void (^)(CGFloat progress))overallProgessBlock
 {
     NSArray *imageUrls = [self readImageUrlListFromFilePath:[imageFolderModel path]];
-    [imageFolderModel setImageUrls:imageUrls];
     for (NSString *url in imageUrls) {
         
         if ([self isCancelled]) {
@@ -37,7 +36,7 @@
         if ([imageModel didCompleteDownload]) { continue; }
 
         [self downloadImageFromUrl:url withProgressBlock:^(CGFloat progress) {
-            [imageModel setProgress:progress];
+            [imageModel updateProgress:progress];
             imageProgessBlock(imageModel, progress);
         } amdCompletion:^(ImageDownloader *imageDownloader) {
             NSError *error;
@@ -48,7 +47,7 @@
             NSString *imagePath = [folderName stringByAppendingPathComponent:[imageModel name]];
             [[imageDownloader data] writeToFile:imagePath options:NSDataWritingAtomic error:&error];
             
-            [imageModel setDidCompleteDownload:YES];
+            [imageModel updateDidCompleteDownload:YES];
             [imageFolderModel recomputeProgress];
             overallProgessBlock([imageFolderModel progress]);
         }];

@@ -8,6 +8,7 @@ target 'ImageDownloader' do
   # Pods for ImageDownloader
   pod 'Masonry'
   pod 'SSZipArchive'
+  pod 'Realm'
 
   target 'ImageDownloaderTests' do
     inherit! :search_paths

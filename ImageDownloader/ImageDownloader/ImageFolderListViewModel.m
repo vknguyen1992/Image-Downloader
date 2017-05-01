@@ -19,8 +19,14 @@
     dispatch_async([[ImageManager sharedManager] backgroundQueue], ^{
         [self setConcurrencyCount:concurrencyCount];
         
-        [[ImageManager sharedManager] downloadImageJsonFolder];
-        [[ImageManager sharedManager] getJsonFilesList];
+        BOOL didDownloadJson = [[ImageManager sharedManager] getDidDownloadJson];
+        if (didDownloadJson) {
+            [[ImageManager sharedManager] loadDataFromDb];
+        } else {
+            [[ImageManager sharedManager] downloadImageJsonFolder];
+            [[ImageManager sharedManager] getJsonFilesList];
+        }
+        
         [[ImageManager sharedManager] downloadAllImageFolderWithConcurrencyNumber:[self concurrencyCount] onCompletion:^{
             //
         }];

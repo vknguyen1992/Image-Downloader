@@ -7,4 +7,4 @@ How to download images with progress on both foreground background
 ### DownloadTask with and without completion
 ### NSURLSessionDownloadTask - NSURLSessionDownloadDelegate (background download)
 ### NSURLSessionDataTask - NSURLSessionDataDelegate
-### User semaphore to do download synchronously
+### Use semaphore to do download synchronously
